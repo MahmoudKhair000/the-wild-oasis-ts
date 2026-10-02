@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.spinner {
+		margin: 3.2rem auto 1.6rem;
+		width: 60px;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		border: 8px solid theme('colors.primary.900');
+		border-right-color: theme('colors.primary.200');
+		animation: rotate 1s infinite linear;
+	}
+
+	.spinner-mini {
+		margin: 0;
+		width: 20px;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		border: 2px solid theme('colors.primary.200');
+		border-right-color: transparent;
+		animation: rotate 1s infinite linear;
+	}
+
+	@keyframes rotate {
+		to {
+			transform: rotate(1turn);
+		}
+	}
+}
+
+/* For data picker */
+
+.rdp-root {
+	/* --rdp-cell-size: 32px !important; */
+	--rdp-accent-color: theme('colors.accent.500') !important;
+	--rdp-background-color: theme('colors.accent.600') !important;
+	--rdp-range_middle-background-color: theme('colors.accent.600') !important;
+	--rdp-day-width: 20px !important;
+	--rdp-day-height: 20px !important;
+	--rdp-day_button-width: 32px !important;
+	--rdp-day_button-height: 32px !important;
+	--rdp-dropdown-gap: 1.25rem !important;
+	--rdp-months-gap: 1rem !important;
+	margin: 0 !important;
+	/* flex: 1 1 0; */
+}
+/* .rdp-month_grid {
+	gap: 0.2rem;
+} */
+
+/* .rdp-day_button {
+	margin: 0.2rem !important;
+} */
+
+.rdp-month {
+	/* width: calc(55% - 1rem) !important; */
+	margin-bottom: 1rem;
+}
+/* .rdp-day {} */
