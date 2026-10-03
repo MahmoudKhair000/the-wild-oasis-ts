@@ -6,6 +6,12 @@ import LoginMessage from './LoginMessage';
 
 async function Reservation({ cabin }) {
   const session = await auth();
+  const now = new Date();
+  const calendarDate = {
+    year: now.getFullYear(),
+    month: now.getMonth(),
+    day: now.getDate(),
+  };
 
   const [settings, bookedDates] = await Promise.all([
     getSettings(),
@@ -20,6 +26,7 @@ async function Reservation({ cabin }) {
         cabin={cabin}
         settings={settings}
         bookedDates={bookedDates}
+        calendarDate={calendarDate}
       />
       {session?.user ? (
         <ReservationForm

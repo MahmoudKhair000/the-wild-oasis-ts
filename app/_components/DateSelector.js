@@ -3,7 +3,6 @@
 import {
   differenceInDays,
   parseISO,
-  isPast,
   isSameDay,
   isWithinInterval,
 } from 'date-fns';
@@ -22,10 +21,15 @@ function isAlreadyBooked(range, datesArr) {
   );
 }
 
-function DateSelector({ cabin, settings, bookedDates }) {
+function DateSelector({ cabin, settings, bookedDates, calendarDate }) {
   const { range, setRange, resetRange } = useReservation();
   // console.log(range);
   const bookedDateObjects = bookedDates.map((date) => parseISO(date));
+  const today = new Date(
+    calendarDate.year,
+    calendarDate.month,
+    calendarDate.day,
+  );
   const displayRange = isAlreadyBooked(range, bookedDateObjects) ? {} : range;
   const { regularPrice, discount } = cabin;
   const numNights =
@@ -52,11 +56,12 @@ function DateSelector({ cabin, settings, bookedDates }) {
         min={minBookingLength}
         max={maxBookingLength}
         // Start & End Months
-        startMonth={new Date()}
-        endMonth={new Date(new Date().getFullYear() + 5, 11, 31)}
+        today={today}
+        startMonth={today}
+        endMonth={new Date(calendarDate.year + 5, 11, 31)}
         // disabling booked dates
         disabled={(currDate) =>
-          isPast(currDate)
+          currDate <= today
           || bookedDateObjects.some((date) => isSameDay(date, currDate))
         }
         excludeDisabled

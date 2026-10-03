@@ -37,7 +37,7 @@ function Filter() {
     <div className="border border-primary-800 flex">
       {filters.map((filter) => (
         <Button
-          key={filter.label}
+          key={filter.filter}
           filter={filter.filter}
           activeFilter={activeFilter}
           handleFilter={handleFilter}
