@@ -6,9 +6,9 @@ import { auth } from '@/app/_lib/auth';
 //   return NextResponse.redirect(new URL('/about', request.url));
 // }
 
-const middleware = auth;
+const proxy = auth;
 
-export default middleware;
+export default proxy;
 
 export const config = {
 	matcher: ['/account', '/account/reservations', '/account/profile'],

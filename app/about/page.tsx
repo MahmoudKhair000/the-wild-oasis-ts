@@ -1,7 +1,9 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import img1 from '@/public/about-1.jpg';
 import { getCabins } from '../_lib/data-service';
 import type { Metadata } from 'next';
+import { Cabin } from '@/app/_types/cabins';
 // import img2 from '@/public/about-2.jpg';
 
 // (60 * 60 * 24)seconds = 1day;
@@ -13,25 +15,8 @@ export const metadata: Metadata = {
 		'Luxurious cabin hotel, located in the heart of the Italian Dolomites, surrounded by beautiful mountains and dark forests',
 };
 
-interface cabinInterface {
-	id: number;
-	name: string;
-	description: string;
-	image: string;
-	maxCapacity: number;
-	regularPrice: number;
-	discount: number;
-}
-
 export default async function Page() {
-	const cabins: {
-		id: number;
-		name: string;
-		maxCapacity: number;
-		regularPrice: number;
-		discount: number;
-		image: string;
-	}[] = await getCabins();
+	const cabins: Cabin[] = await getCabins();
 	const numCabins: number = cabins.length;
 
 	return (
@@ -105,12 +90,12 @@ export default async function Page() {
 					</p>
 
 					<div>
-						<a
+						<Link
 							href="/cabins"
 							className="inline-block mt-4 bg-accent-500 px-8 py-5 text-primary-800 text-lg font-semibold hover:bg-accent-600 transition-all"
 						>
 							Explore our luxury cabins
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

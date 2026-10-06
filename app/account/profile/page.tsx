@@ -2,16 +2,17 @@ import SelectCountry from '@/app/_components/SelectCountry';
 // a server component that is imported in a server component and passed as children to a client component.
 import UpdateProfileForm from '@/app/_components/UpdateProfileForm';
 // a client component that is imported in a server component and passed a server component as children.
-import { auth } from '@/app/_lib/auth';
+import { auth, MySession } from '@/app/_lib/auth';
 import { getGuest } from '@/app/_lib/data-service';
+import { Guest } from '@/app/_types/users';
 
 export const metadata = {
 	title: 'Update profile',
 };
 
 export default async function Page() {
-	const session = await auth();
-	const guest = await getGuest(session.user.email);
+	const session = (await auth()) as MySession;
+	const guest: Guest = await getGuest(session.user.email);
 
 	const { nationality, countryFlag } = guest;
 	// const nationality = 'portugal';

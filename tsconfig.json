@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"target": "ES2017",
 		"lib": ["dom", "dom.iterable", "esnext"],
+		// this is how I keep messing with the Ts project
 		"allowJs": true,
 		"skipLibCheck": true,
 		"strict": true,
@@ -28,7 +29,8 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		".next/dev/types/**/*.ts",
-		"**/*.mts"
+		"**/*.mts",
+		"app/_components/ReservationForm.tsx"
 	],
 	"exclude": ["node_modules"]
 }
