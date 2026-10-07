@@ -4,7 +4,6 @@ import UpdateProfileForm from '@/app/_components/UpdateProfileForm';
 // a client component that is imported in a server component and passed a server component as children.
 import { auth, MySession } from '@/app/_lib/auth';
 import { getGuest } from '@/app/_lib/data-service';
-import { Guest } from '@/app/_types/users';
 
 export const metadata = {
 	title: 'Update profile',
@@ -12,7 +11,8 @@ export const metadata = {
 
 export default async function Page() {
 	const session = (await auth()) as MySession;
-	const guest: Guest = await getGuest(session.user.email);
+	const guest = await getGuest(session.user.email);
+	if (!guest) throw new Error('Guest profile could not be loaded');
 
 	const { nationality, countryFlag } = guest;
 	// const nationality = 'portugal';

@@ -265,6 +265,12 @@ For production deployment, make sure to configure:
 - Supabase project access and URL settings
 - secure secret values for `AUTH_SECRET`
 
+For Vercel, add `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `AUTH_GOOGLE_ID`,
+`AUTH_GOOGLE_SECRET`, and `AUTH_SECRET` to the project's Environment Variables
+for each deployment environment you use. Add your deployed domain's Google
+callback URL (`https://<your-domain>/api/auth/callback/google`) to the
+authorized redirect URIs in the Google OAuth client.
+
 ## Troubleshooting
 
 ### Supabase connection issues
@@ -280,8 +286,10 @@ Check that:
 Check that:
 
 - Google OAuth client ID and secret are correct
-- the redirect URL matches your app configuration
+- the Google OAuth client's authorized redirect URI is
+  `https://<your-domain>/api/auth/callback/google`
 - `AUTH_SECRET` is set
+- the Vercel deployment has all required environment variables configured
 
 ### Booking actions fail
 

@@ -11,5 +11,5 @@ const proxy = auth;
 export default proxy;
 
 export const config = {
-	matcher: ['/account', '/account/reservations', '/account/profile'],
+	matcher: ['/account/:path*'],
 };

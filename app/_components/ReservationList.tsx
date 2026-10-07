@@ -27,7 +27,7 @@ function ReservationList({ bookings }: { bookings: Partial<Booking>[] }) {
 	}
 
 	return (
-		<ul className="space-y-6 lg:max-w-2xl xl:max-w-3xl mx-auto">
+		<ul className="space-y-6 max-sm:space-y-0 lg:max-w-2xl xl:max-w-3xl mx-auto">
 			{optimisticBookings.map((booking: Partial<Booking>) => (
 				<ReservationCard
 					key={booking.id}

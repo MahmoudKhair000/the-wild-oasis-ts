@@ -19,7 +19,6 @@ function ReservationCard({
 	booking: Partial<Booking>;
 	onDelete: (bookingId: number) => void;
 }) {
-	// console.log(booking);
 	const {
 		id,
 		// guestId,
@@ -35,7 +34,7 @@ function ReservationCard({
 	} = booking;
 
 	return (
-		<div className="w-full h-fit flex flex-col lg:flex-row border border-primary-800">
+		<div className="w-full mx-auto h-fit flex flex-col lg:flex-row border border-primary-800 max-sm:translate-[-5%] max-md:scale-90 max-md:translate-[-2.5%]">
 			<div className="relative min-h-36 max-xl:max-h-100 aspect-square lg:h-full max-lg:w-full">
 				<Image
 					src={image}

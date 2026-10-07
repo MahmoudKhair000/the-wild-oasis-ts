@@ -45,7 +45,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
 				className={`${josefin.className} bg-primary-950 text-primary-100 min-h-screen flex flex-col antialiased`}
 			>
 				<Header session={session} />
-				<div className="flex-1 px-8 py-12 flex">
+				<div className="flex-1 md:px-8 py-12 flex">
 					<main className="max-w-7xl mx-auto flex-1">
 						{/* No worries at all, we're passing them as children */}
 						<ReservationProvider>{children}</ReservationProvider>

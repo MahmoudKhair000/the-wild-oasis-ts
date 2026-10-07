@@ -4,7 +4,8 @@ import Google from 'next-auth/providers/google';
 import { createGuest, getGuest } from './data-service';
 export { MySession };
 
-const authConfif: NextAuthConfig = {
+const authConfig: NextAuthConfig = {
+	trustHost: true,
 	providers: [
 		Google({
 			clientId: process.env.AUTH_GOOGLE_ID,
@@ -17,27 +18,23 @@ const authConfif: NextAuthConfig = {
 		authorized({ auth }) {
 			return !!auth;
 		},
-		/*, account, profile*/
 		async signIn({ user }) {
-			// const existingGuest: object = await getGuest(user.email);
-			return await getGuest(user.email!)
-				.then((res: object) => {
-					if (!res) {
-						const newGuestData = {
-							email: user.email,
-							fullName: user.name,
-						};
-						createGuest(newGuestData);
-					}
-					return true;
-				})
-				.catch(() => {
-					return false;
+			if (!user.email) return false;
+
+			const guest = await getGuest(user.email);
+			if (!guest) {
+				await createGuest({
+					email: user.email,
+					fullName: user.name,
 				});
+			}
+
+			return true;
 		},
-		/*, user*/
 		async session({ session }) {
 			const guest = await getGuest(session.user.email);
+			if (!guest) throw new Error('Guest profile could not be loaded');
+
 			const typedSession = session as MySession;
 
 			typedSession.user.guestId = guest.id;
@@ -55,4 +52,4 @@ export const {
 	signIn,
 	signOut,
 	handlers: { GET, POST },
-} = NextAuth(authConfif);
+} = NextAuth(authConfig);

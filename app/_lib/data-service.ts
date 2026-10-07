@@ -63,15 +63,19 @@ export async function getCabins(): Promise<Cabin[]> {
 }
 
 // Guests are uniquely identified by their email address
-export async function getGuest(email: string): Promise<Guest> {
-	const { data /*, error*/ } = await supabase
+export async function getGuest(email: string): Promise<Guest | null> {
+	const { data, error } = await supabase
 		.from('guests')
 		.select('*')
 		.eq('email', email)
-		.single();
+		.maybeSingle();
 
-	// No error here! We handle the possibility of no guest in the sign in callback
-	return data as Guest;
+	if (error) {
+		console.error(error);
+		throw new Error('Guest could not be loaded');
+	}
+
+	return data as Guest | null;
 }
 
 export async function getBooking(id: ID): Promise<Booking> {
