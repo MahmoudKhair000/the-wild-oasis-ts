@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { auth } from '@/app/_lib/auth';
 import Image from 'next/image';
+import { MySession } from '@/app/_types/users';
 
-export default async function Navigation() {
-	const session = await auth();
+export default function Navigation({ session }: { session: MySession }) {
 	// console.log(session);
 	/**
 {
@@ -44,16 +43,24 @@ export default async function Navigation() {
 						} hover:text-accent-400 transition-colors`}
 					>
 						{session?.user?.image && (
-							<div className="relative w-10 h-10 rounded-full overflow-hidden">
+							<div className="relative w-10 h-10 rounded-[9999px] overflow-hidden">
 								<Image
 									src={session.user.image}
-									className="object-cover object-center aspect-square"
+									className="object-cover object-center aspect-square w-full"
 									fill
 									alt={session.user.name ? String(session.user.name) : ''}
 								/>
 							</div>
 						)}
-						<span>{session?.user?.name ?? 'Guest area'}</span>
+						<span>
+							<p
+								//
+								className="block whitespace-nowrap overflow-hidden text-ellipsis w-30 ml:w-full"
+								//
+							>
+								{session?.user?.name ?? 'Guest area'}
+							</p>
+						</span>
 					</Link>
 				</li>
 			</ul>

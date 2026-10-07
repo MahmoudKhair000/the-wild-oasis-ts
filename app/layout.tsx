@@ -1,5 +1,7 @@
 import Header from '@/app/_components/Header';
 import { ReservationProvider } from '@/app/_contexts/ReservationContext';
+import { auth } from '@/app/_lib/auth';
+import { MySession } from '@/app/_types/users';
 import '@/app/_styles/globals.css';
 import { Metadata } from 'next';
 
@@ -34,13 +36,15 @@ export const metadata: Metadata = {
   */
 };
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+export default async function RootLayout({ children }: LayoutProps<'/'>) {
+	const session = (await auth()) as MySession;
+
 	return (
 		<html>
 			<body
 				className={`${josefin.className} bg-primary-950 text-primary-100 min-h-screen flex flex-col antialiased`}
 			>
-				<Header />
+				<Header session={session} />
 				<div className="flex-1 px-8 py-12 flex">
 					<main className="max-w-7xl mx-auto flex-1">
 						{/* No worries at all, we're passing them as children */}
