@@ -16,7 +16,7 @@ function DeleteReservation({
 	bookingId,
 	onDelete,
 }: {
-	bookingId: ID;
+	bookingId: ID | undefined;
 	onDelete: (bookingId: number) => void;
 }) {
 	// Navigations and server actions can be marked as transitions; HTTP requests are not automatically transitions.

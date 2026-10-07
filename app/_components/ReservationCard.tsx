@@ -16,7 +16,7 @@ function ReservationCard({
 	booking,
 	onDelete,
 }: {
-	booking: Booking;
+	booking: Partial<Booking>;
 	onDelete: (bookingId: number) => void;
 }) {
 	// console.log(booking);
@@ -31,12 +31,12 @@ function ReservationCard({
 		// status,
 		created_at,
 		// cabins: { name, image }, // Static import
-		cabins: { name, image },
+		cabins: { name = '', image = '' } = {},
 	} = booking;
 
 	return (
-		<div className="flex border border-primary-800">
-			<div className="relative h-32 aspect-square">
+		<div className="w-full h-fit flex flex-col lg:flex-row border border-primary-800">
+			<div className="relative min-h-36 max-xl:max-h-100 aspect-square lg:h-full max-lg:w-full">
 				<Image
 					src={image}
 					alt={`Cabin ${name}`}
@@ -62,31 +62,40 @@ function ReservationCard({
 				</div>
 
 				<p className="text-lg text-primary-300">
-					{format(parseISO(String(startDate)), 'EEE, MMM dd yyyy')} (
-					{isToday(parseISO(String(startDate)))
-						? 'Today'
-						: formatDistanceFromNow(String(startDate))}
-					) &mdash; {format(parseISO(String(endDate)), 'EEE, MMM dd yyyy')}
+					<span className="flex lg:flex-col">
+						(
+						{isToday(parseISO(String(startDate)))
+							? 'Today'
+							: formatDistanceFromNow(String(startDate))}
+						){' '}
+					</span>
+					<span>
+						{format(parseISO(String(startDate)), 'EEE, MMM dd yyyy')} &mdash;{' '}
+						{format(parseISO(String(endDate)), 'EEE, MMM dd yyyy')}
+					</span>
 				</p>
 
-				<div className="flex gap-5 mt-auto items-baseline">
+				<div className="flex gap-3 mt-auto items-baseline">
 					<p className="text-xl font-semibold text-accent-400">${totalPrice}</p>
+
 					<p className="text-primary-300">&bull;</p>
+
 					<p className="text-lg text-primary-300">
-						{numGuests} guest{numGuests! > 1 ? 's' : ''}
+						{numGuests! > 1 ? numGuests : 'A'} guest{numGuests! > 1 ? 's' : ''}
 					</p>
+
 					<p className="ml-auto text-sm text-primary-400">
-						Booked on{' '}
+						<i className="max-xl:hidden">Booked on</i>{' '}
 						{format(new Date(String(created_at)), 'EEE, MMM dd yyyy, p')}
 					</p>
 				</div>
 			</div>
 
 			{!isPast(parseISO(String(startDate))) && (
-				<div className="flex flex-col border-l border-primary-800 w-25">
+				<div className="flex lg:flex-col max-lg:border-t lg:border-l border-primary-800 lg:w-25 max-lg:h-22 max-lg:*:px-10">
 					<Link
 						href={`/account/reservations/edit/${id}`}
-						className="group flex items-center gap-2 uppercase text-xs font-bold text-primary-300 border-b border-primary-800 grow px-3 hover:bg-accent-600 transition-colors hover:text-primary-900"
+						className="group flex items-center gap-2 uppercase text-xs font-bold text-primary-300 lg:border-b max-lg:border-r border-primary-800 grow px-3 hover:bg-accent-600 transition-colors hover:text-primary-900"
 					>
 						<PencilSquareIcon className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors" />
 						<span className="mt-1">Edit</span>

@@ -2,9 +2,9 @@ import SideNavigation from '@/app/_components/SideNavigation';
 
 export default function AccountLayout({ children }: LayoutProps<'/account'>) {
 	return (
-		<div className="h-full grid gap-8 grid-cols-[16rem_1fr] flex-1">
+		<div className="min-h-[calc(100vh-197px)] grid gap-8 grid-cols-[4rem_1fr] md:grid-cols-[16rem_1fr] flex-1 relative">
 			<SideNavigation />
-			<div>{children}</div>
+			<div className="">{children}</div>
 		</div>
 	);
 }
