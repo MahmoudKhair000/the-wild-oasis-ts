@@ -24,20 +24,21 @@ function Menu({
 			<div className="z-10 h-screen w-screen absolute bg-primary-900 opacity-80"></div>
 			<div
 				// title="overlay"
-				className="z-10 h-screen w-screen absolute grid grid-rows-1 grid-cols-[fit-content_1fr]"
+				className="z-11 h-screen w-screen absolute grid grid-rows-1 grid-cols-[fit-content_1fr]"
 				onClick={handleClose}
 				//
 			>
 				<div
-					className="p-12 bg-accent-500 w-fit"
+					className="py-8 ps-10 pe-18 bg-primary-800 w-fit flex flex-col gap-6"
 					onClick={(e) => e.stopPropagation()}
 				>
-					<div onClick={handleClose}>
+					<div
+						className="w-full"
+						onClick={handleClose}
+					>
 						<Logo />
 					</div>
-					<br />
-					{/* <br /> */}
-					<ul className="flex flex-col gap-2 items-start justify-center w-fit bg-primary-800 p-2 rounded-lg border border-primary-500 me-8">
+					<ul className="flex grow flex-col gap-2 items-start justify-center w-fit p-2 rounded-lg border-0 border-primary-500">
 						<li
 							className="w-full"
 							onClick={handleClose}
@@ -61,7 +62,7 @@ function Menu({
 							</Link>
 						</li>
 						<li
-							className="w-full mt-6"
+							className="w-full mt-auto"
 							onClick={handleClose}
 						>
 							<Link
