@@ -5,17 +5,18 @@ import bg from '@/public/bg.png';
 
 export default function Page() {
 	return (
-		<main className="mt-24">
-			<Image
-				src={bg}
-				className="object-cover object-top"
-				placeholder="blur"
-				quality={80}
-				fill
-				// width=""
-				// height=""
-				alt="Mountains and forests with two cabins"
-			/>
+		<main className="relative isolate flex flex-1 items-center justify-center">
+			<div className="fixed inset-0 -z-10">
+				<Image
+					src={bg}
+					className="object-cover object-top"
+					placeholder="blur"
+					quality={80}
+					fill
+					sizes="100vw"
+					alt=""
+				/>
+			</div>
 
 			<div className="relative z-10 text-center">
 				<h1 className="text-4xl sm:text-6xl md:text-8xl text-primary-50 mb-10 tracking-tight font-normal">

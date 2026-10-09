@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from './Logo';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 function Menu({
 	setIsShown,
@@ -13,7 +14,9 @@ function Menu({
 	session: MySession;
 }) {
 	//
-	function handleClose(e: MouseEvent<HTMLDivElement | HTMLLIElement>): void {
+	function handleClose(
+		e: MouseEvent<HTMLDivElement | HTMLButtonElement | HTMLLIElement>,
+	): void {
 		e.preventDefault();
 
 		setIsShown(false);
@@ -29,9 +32,16 @@ function Menu({
 				//
 			>
 				<div
-					className="py-8 ps-10 pe-18 bg-primary-800 w-fit flex flex-col gap-6"
+					className="py-8 ps-10 pe-18 bg-primary-800 w-fit flex flex-col gap-6 relative"
 					onClick={(e) => e.stopPropagation()}
 				>
+					<button
+						className="absolute top-5 right-5 h-8 w-8 rounded-full bg-accent-500"
+						onClick={handleClose}
+					>
+						<XMarkIcon />
+					</button>
+
 					<div
 						className="w-full"
 						onClick={handleClose}

@@ -27,7 +27,7 @@ function Header({ session }: { session: MySession }) {
 			</>
 			{/* less than --md header */}
 			<>
-				<header className="border-b border-primary-900 px-8 py-5 block md:hidden">
+				<header className="z-10 sticky self-start top-0 left-0 border-b w-dvw border-primary-900 px-8 py-5 block md:hidden bg-inherit">
 					<div className="flex justify-between items-center max-w-7xl mx-auto gap-10">
 						<Logo />
 						<button
