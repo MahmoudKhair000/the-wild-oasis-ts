@@ -24,7 +24,7 @@ function Menu({
 
 	return createPortal(
 		<>
-			<div className="z-10 h-screen w-screen absolute bg-primary-900 opacity-80"></div>
+			<div className="z-10 h-dvh w-dvw absolute bg-primary-900 opacity-80"></div>
 			<div
 				// title="overlay"
 				className="z-11 h-dvh w-dvw absolute grid grid-rows-1 grid-cols-[fit-content_1fr]"
