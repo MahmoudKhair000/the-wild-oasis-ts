@@ -11,7 +11,10 @@ function ReservationReminder() {
 
 	return (
 		<div
-			className="fixed bottom-6 z-10 mx-auto w-fit py-5 px-8 rounded-[5vw] 
+			className="fixed bottom-6 z-10 mx-auto w-fit 
+				md:left-1/2 md:-translate-x-1/2
+				max-md:left-1/2 max-md:-translate-x-1/2
+				py-5 px-5 rounded-[6vw] text-center
 				font-semibold shadow-xl flex gap-4 items-center 
 				bg-accent-500 text-primary-800 shadow-slate-900 
 				max-sm:text-base max-md:text-md md:text-lg"
@@ -26,7 +29,7 @@ function ReservationReminder() {
 				{format(new Date(range.to), 'MMM dd yyyy')}
 			</p>
 			<button
-				className="rounded-full p-1 hover:bg-accent-600 transition-all"
+				className="rounded-full p-2 border border-primary-800 hover:bg-accent-600 transition-all"
 				onClick={resetRange}
 			>
 				<XMarkIcon className="h-5 w-5" />
