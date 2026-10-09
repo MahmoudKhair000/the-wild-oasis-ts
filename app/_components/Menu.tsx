@@ -24,10 +24,10 @@ function Menu({
 
 	return createPortal(
 		<>
-			<div className="z-10 h-dvh w-dvw absolute bg-primary-900 opacity-80"></div>
+			<div className="z-10 h-dvh w-dvw fixed bg-primary-900 opacity-80"></div>
 			<div
 				// title="overlay"
-				className="z-11 h-dvh w-dvw absolute grid grid-rows-1 grid-cols-[fit-content_1fr]"
+				className="z-11 h-dvh w-dvw fixed grid grid-rows-1 grid-cols-[fit-content_1fr]"
 				onClick={handleClose}
 				//
 			>
@@ -36,10 +36,13 @@ function Menu({
 					onClick={(e) => e.stopPropagation()}
 				>
 					<button
-						className="absolute top-5 right-5 h-8 w-8 rounded-full bg-accent-500"
+						className="absolute overflow-hidden top-5 right-5 p-0.5 rounded-full bg-accent-500 cursor-pointer"
 						onClick={handleClose}
 					>
-						<XMarkIcon />
+						<XMarkIcon
+							width="30"
+							height="30"
+						/>
 					</button>
 
 					<div

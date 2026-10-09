@@ -9,7 +9,7 @@ function Cabin({ cabin }: { cabin: Partial<Cabin> }) {
 
 	return (
 		<div className="lg:grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24 transition-all delay-500">
-			<div className="relative scale-[1.15] lg:-translate-x-3 max-lg:min-h-[35vw]">
+			<div className="relative scale-[1.15] lg:-translate-x-3 max-lg:min-h-[40vw] ">
 				<Image
 					src={image!}
 					fill

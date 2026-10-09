@@ -42,7 +42,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
 	return (
 		<html>
 			<body
-				className={`${josefin.className} bg-primary-950 text-primary-100 min-h-screen flex flex-col antialiased`}
+				className={`${josefin.className} bg-primary-950 text-primary-100 min-h-screen flex flex-col antialiased overflow-x-hidden`}
 			>
 				<Header session={session} />
 				<div className="flex-1 md:px-8 py-12 flex">

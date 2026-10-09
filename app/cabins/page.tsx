@@ -44,14 +44,18 @@ export default async function Page({
 				<Filter />
 			</div>
 			{/* giving Suspense a key will force it to re-render when the filter changes, so that the fallback is shown while the new data is being fetched. Otherwise, it will just show the old data until the new data is ready. */}
-			<Suspense
-				fallback={<Spinner />}
-				// a key to make it load for each filter once
-				key={filter}
-			>
-				<CabinList filter={filter} />
-				<ReservationReminder />
-			</Suspense>
+			<div className="w-full">
+				<>
+					<Suspense
+						fallback={<Spinner />}
+						// a key to make it load for each filter once
+						key={filter}
+					>
+						<CabinList filter={filter} />
+						<ReservationReminder />
+					</Suspense>
+				</>
+			</div>
 		</div>
 	);
 }
