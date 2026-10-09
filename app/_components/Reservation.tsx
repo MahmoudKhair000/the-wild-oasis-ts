@@ -17,7 +17,7 @@ async function Reservation({ cabin }: { cabin: Partial<Cabin> }) {
 	// console.log([settings, bookedDates]);
 
 	return (
-		<div className="grid sm:grid-cols-2 border border-primary-800 ">
+		<div className="grid max-[1150px]:md:grid-cols-[4fr_6fr] min-[1150px]:grid-cols-[1fr_1fr] border border-primary-800 ">
 			<DateSelector
 				cabin={cabin}
 				settings={settings}

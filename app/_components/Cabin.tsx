@@ -8,18 +8,18 @@ function Cabin({ cabin }: { cabin: Partial<Cabin> }) {
 	const { name, maxCapacity, image, description } = cabin;
 
 	return (
-		<div className="grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24 transition-all delay-500">
-			<div className="relative scale-[1.15] -translate-x-3">
+		<div className="lg:grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24 transition-all delay-500">
+			<div className="relative scale-[1.15] lg:-translate-x-3 max-lg:min-h-[35vw]">
 				<Image
 					src={image!}
 					fill
-					className="object-cover"
+					className="object-cover object-center"
 					alt={`Cabin ${name}`}
 				/>
 			</div>
 
 			<div>
-				<h3 className="text-accent-100 font-black text-7xl mb-5 -translate-x-63.5 bg-primary-950 p-6 pb-1 w-[150%]">
+				<h3 className="text-accent-100 font-black text-7xl mb-5 lg:-translate-x-63.5 max-lg:mt-8 bg-primary-950 p-6 pb-1 lg:w-[150%]">
 					Cabin {name}
 				</h3>
 

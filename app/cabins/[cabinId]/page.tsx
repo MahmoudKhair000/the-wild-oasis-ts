@@ -56,7 +56,7 @@ export default async function Page({
 	// console.log(params);
 
 	return (
-		<div className="max-w-6xl mx-auto mt-8">
+		<div className="max-w-6xl mx-auto mt-8 max-md:mx-6">
 			<Cabin cabin={cabin} />
 
 			<div>

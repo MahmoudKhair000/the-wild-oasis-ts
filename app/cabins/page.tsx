@@ -28,10 +28,10 @@ export default async function Page({
 
 	return (
 		<div>
-			<h1 className="text-4xl mb-5 text-accent-400 font-medium">
+			<h1 className="text-4xl mb-5 text-accent-400 font-medium max-md:mx-6">
 				Our Luxury Cabins
 			</h1>
-			<p className="text-primary-200 text-lg mb-10">
+			<p className="text-primary-200 text-lg mb-10 max-md:mx-6">
 				Cozy yet luxurious cabins, located right in the heart of the Italian
 				Dolomites. Imagine waking up to beautiful mountain views, spending your
 				days exploring the dark forests around, or just relaxing in your private
@@ -40,7 +40,7 @@ export default async function Page({
 				Welcome to paradise.
 			</p>
 
-			<div className="flex justify-end mb-8">
+			<div className="flex justify-end mb-8 max-md:mx-6">
 				<Filter />
 			</div>
 			{/* giving Suspense a key will force it to re-render when the filter changes, so that the fallback is shown while the new data is being fetched. Otherwise, it will just show the old data until the new data is ready. */}
