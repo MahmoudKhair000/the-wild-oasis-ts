@@ -44,7 +44,7 @@ export default async function Page({
 				<Filter />
 			</div>
 			{/* giving Suspense a key will force it to re-render when the filter changes, so that the fallback is shown while the new data is being fetched. Otherwise, it will just show the old data until the new data is ready. */}
-			<div className="w-full">
+			<div className="max-md:mb-16 md:mb-25">
 				<>
 					<Suspense
 						fallback={<Spinner />}
