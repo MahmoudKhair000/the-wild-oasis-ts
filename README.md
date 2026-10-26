@@ -1,321 +1,320 @@
 # The Wild Oasis
 
-A modern cabin booking and guest management app built with Next.js, TypeScript, Supabase, and Google authentication. The app lets guests browse luxury cabins, filter them by capacity, check availability, create and manage reservations, and update their profile.
+The Wild Oasis is a cabin booking website for a fictional lodge in the Italian
+Dolomites. Guests can browse cabins, check availability, make reservations, and
+manage their profile and reservations after signing in with Google.
 
-This project is a TypeScript version of the classic "The Wild Oasis" booking experience, adapted for the App Router and server actions in Next.js.
+The project is built with the Next.js App Router, React, TypeScript, Supabase,
+and Auth.js (NextAuth) and is intended as a learning/demo application.
 
-## Overview
+## Contents
 
-The Wild Oasis is a fictional luxury cabin rental website inspired by boutique resort experiences. The application supports:
+- [Features](#features)
+- [Technology](#technology)
+- [Getting started](#getting-started)
+- [Environment variables](#environment-variables)
+- [Supabase setup and data contract](#supabase-setup-and-data-contract)
+- [Google OAuth setup](#google-oauth-setup)
+- [Routes](#routes)
+- [Application structure](#application-structure)
+- [How the application works](#how-the-application-works)
+- [Commands](#commands)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [Limitations and project status](#limitations-and-project-status)
 
-- Cabin catalog browsing with filtering
-- Reservation creation and validation
-- Booking management for authenticated guests
-- User profile updates with country and nationality information
-- Google sign-in via NextAuth
-- Supabase-powered persistence for cabins, guests, bookings, and settings
+## Features
 
-## Tech Stack
+- Browse cabins and filter them by guest capacity.
+- View cabin details, nightly prices, discounts, and availability.
+- Select a date range and optionally include breakfast when making a reservation.
+- Sign in with Google; a guest record is created on first sign-in.
+- View, edit, and delete your own reservations in the guest area.
+- Update your guest profile with nationality, a country flag, and national ID.
+- Responsive layouts, loading states, error boundaries, and not-found pages.
 
-- Next.js 16 (App Router)
-- React 19
-- TypeScript
-- Tailwind CSS
-- Supabase
-- NextAuth (Google OAuth)
-- date-fns
+## Technology
+
+- Next.js 16 App Router and React 19
+- TypeScript 5
+- Tailwind CSS 4
+- Supabase JavaScript client for application data
+- Auth.js / NextAuth v5 with the Google provider
+- `date-fns` and `react-day-picker` for date calculations and selection
 - Heroicons
+- pnpm (version declared by the package manifest)
 
-## Project Structure
-
-```text
-.
-├── app/
-│   ├── _components/        # UI components
-│   ├── _contexts/          # Reservation context
-│   ├── _lib/               # auth, Supabase, actions, data service
-│   ├── _types/             # TypeScript interfaces
-│   ├── _styles/            # global styles
-│   ├── about/              # About page
-│   ├── account/            # Guest dashboard and booking management
-│   ├── api/auth/[...nextauth]/route.js
-│   ├── cabins/             # Cabin listing and booking pages
-│   ├── login/              # Authentication page
-│   ├── layout.tsx          # root layout and metadata
-│   ├── page.tsx            # landing page
-│   └── ...
-├── public/                 # static assets
-├── package.json
-├── next.config.ts
-├── tsconfig.json
-├── eslint.config.mjs
-├── postcss.config.mjs
-├── pnpm-lock.yaml
-├── README.md
-└── .gitignore
-```
-
-## Key Features
-
-### Guest Authentication
-
-Authentication is handled with NextAuth and Google sign-in. The app configures custom callbacks to:
-
-- enforce access control
-- create a guest row on first Google sign-in
-- populate the session with the guest ID for authorization checks
-
-### Cabin Listings
-
-The cabins page shows luxury cabins and allows filtering by guest capacity. The list is fetched from Supabase and rendered server-side with dynamic search params.
-
-### Booking Flow
-
-Guests can:
-
-- select a cabin
-- choose a date range
-- view booked dates and unavailable days
-- submit a booking
-- view reservation confirmation
-
-Booking creation and updates are performed using server actions and are protected by user session checks.
-
-### Reservation Management
-
-Authenticated users can access their booking records and:
-
-- view existing reservations
-- update guest counts or notes
-- delete bookings they own
-
-These actions validate that the user is the owner of the reservation before performing database updates.
-
-### Profile Management
-
-Users can update their guest information, including:
-
-- national ID
-- nationality
-- country flag metadata
-
-This is stored in the `guests` table in Supabase.
-
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
-Make sure you have the following installed:
-
-- Node.js 20+
-- pnpm (recommended) or npm
-- A Supabase project
-- A Google OAuth app for authentication
+- Node.js 20.9 or newer
+- pnpm (recommended; the project declares pnpm 11.20.0)
+- A Supabase project with the tables and data described in
+  [Supabase setup and data contract](#supabase-setup-and-data-contract)
+- A Google OAuth client; see [Google OAuth setup](#google-oauth-setup)
 
 ### Install dependencies
+
+From the repository root, install dependencies using the checked-in lockfile:
 
 ```bash
 pnpm install
 ```
 
-or:
+Create a `.env.local` file in the repository root and fill in the values
+described in [Environment variables](#environment-variables). Then start the
+development server:
 
 ```bash
-npm install
+pnpm dev
 ```
 
-### Environment Variables
+Open [http://localhost:3000](http://localhost:3000).
 
-Create a `.env.local` file in the project root with the following variables:
+## Environment variables
+
+The application reads these variables on the server:
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `SUPABASE_URL` | Yes | URL of the Supabase project |
+| `SUPABASE_SECRET_KEY` | Yes | Supabase key used by the server-side client |
+| `AUTH_GOOGLE_ID` | Yes | Google OAuth client ID |
+| `AUTH_GOOGLE_SECRET` | Yes | Google OAuth client secret |
+| `AUTH_SECRET` | Yes | Secret used by Auth.js to protect session data |
+
+Example `.env.local`:
 
 ```env
-SUPABASE_URL=your_supabase_project_url
-SUPABASE_SECRET_KEY=your_supabase_service_role_or_anon_key
-AUTH_GOOGLE_ID=your_google_client_id
-AUTH_GOOGLE_SECRET=your_google_client_secret
-AUTH_SECRET=your_random_session_secret
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_SECRET_KEY=your_server_side_supabase_key
+AUTH_GOOGLE_ID=your_google_oauth_client_id
+AUTH_GOOGLE_SECRET=your_google_oauth_client_secret
+AUTH_SECRET=your_long_random_auth_secret
 ```
 
-Notes:
+`SUPABASE_SECRET_KEY` is read by `app/_lib/supabase.ts` and must remain
+server-only. Do not rename it to a `NEXT_PUBLIC_` variable, expose it to the
+browser, or commit `.env.local`. Use a key with only the database permissions
+required by this application and review your Supabase access policies before
+deployment.
 
-- `SUPABASE_URL` is the URL of your Supabase project.
-- `SUPABASE_SECRET_KEY` is used by the app to connect to the database.
-- `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` come from your Google OAuth credentials.
-- `AUTH_SECRET` is required by NextAuth for secure session handling.
+## Supabase setup and data contract
 
-### Run the app locally
+The application connects to Supabase from server-side code using the project
+URL and key above. It expects the following tables and fields. Add any database
+constraints or defaults required by your Supabase project; this repository does
+not include SQL migrations or a database schema export.
 
-```bash
-pnpm dev
-```
+| Table | Fields used by the application |
+| --- | --- |
+| `cabins` | `id`, `created_at`, `name`, `maxCapacity`, `description`, `image`, `regularPrice`, `discount` |
+| `guests` | `id`, `created_at`, `email`, `fullName`, `nationalID`, `nationality`, `countryFlag` |
+| `bookings` | `id`, `created_at`, `cabinId`, `guestId`, `startDate`, `endDate`, `numNights`, `numGuests`, `cabinPrice`, `extrasPrice`, `totalPrice`, `status`, `hasBreakfast`, `isPaid`, `observations` |
+| `settings` | `id`, `created_at`, `minBookingLength`, `maxBookingLength`, `maxGuestsPerBooking`, `breakfastPrice` |
 
-Then open:
+The `guests.email` value is used to find the guest linked to a Google account.
+The Auth.js session is enriched with that guest's `id`. Booking operations use
+`guestId` and `cabinId`; the reservations query also reads the related cabin's
+`name` and `image`, so the `bookings` table needs a Supabase relationship to
+`cabins` that Supabase can resolve for the `cabins(name, image)` select.
+
+The application expects at least one row in `settings`, because it reads that
+table as a single record. Booking status values currently used in the
+application include `unconfirmed`, `checked-in`, and `checked-out`.
+
+Cabin photos are rendered from remote Supabase Storage URLs. The default Next.js
+image configuration in `next.config.ts` allows the project's currently
+configured Supabase image host, as well as Google profile images and country
+flag images. If you use a different Supabase project, update the Supabase
+hostname in `next.config.ts` to match its public image URLs. Ensure cabin images
+are accessible to the application at the URLs stored in `cabins.image`.
+
+Country choices are loaded from the local
+[`app/_lib/countries.json`](app/_lib/countries.json) file; they do not require a
+separate country API at runtime.
+
+## Google OAuth setup
+
+Create a Google OAuth client and configure the following authorized redirect
+URI:
 
 ```text
-http://localhost:3000
+http://localhost:3000/api/auth/callback/google
 ```
 
-## Available Scripts
+For a deployed site, add the corresponding production URI:
 
-```json
-{
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "lint": "eslint"
-}
+```text
+https://<your-domain>/api/auth/callback/google
 ```
 
-Use them as follows:
+Set the resulting client ID and secret as `AUTH_GOOGLE_ID` and
+`AUTH_GOOGLE_SECRET`. The login page uses Google sign-in. On successful sign-in,
+the Auth.js callback looks up the guest by email and creates a guest record if
+one does not already exist.
 
-```bash
-pnpm dev
-pnpm build
-pnpm start
-pnpm lint
+## Routes
+
+| Route | Description |
+| --- | --- |
+| `/` | Landing page with a link to explore cabins |
+| `/about` | Lodge information |
+| `/cabins` | Cabin catalogue with capacity filters |
+| `/cabins/[cabinId]` | Cabin details, availability calendar, and reservation form |
+| `/cabins/thankyou` | Confirmation page after reservation submission |
+| `/login` | Google sign-in page |
+| `/account` | Guest-area landing page; requires authentication |
+| `/account/profile` | View and update guest profile; requires authentication |
+| `/account/reservations` | List the signed-in guest's reservations |
+| `/account/reservations/edit/[reservationId]` | Edit a reservation owned by the guest |
+| `/api/auth/[...nextauth]` | Auth.js route handlers |
+
+The account routes are guarded by `proxy.ts`, whose matcher covers
+`/account/:path*`. The account layout provides the guest-area navigation.
+
+On the cabin catalogue, the `capacity` query parameter selects a filter:
+`all`, `small` (up to 3 guests), `medium` (4–7 guests), or `large` (8 or more).
+For example, `/cabins?capacity=medium`.
+
+## Application structure
+
+```text
+app/
+├── _components/       Shared UI components and booking/profile forms
+├── _contexts/         Client-side reservation date-range state
+├── _lib/
+│   ├── actions.ts     Server actions for guest and booking mutations
+│   ├── auth.ts        Auth.js configuration and callbacks
+│   ├── data-service.ts Supabase reads and data transformations
+│   ├── supabase.ts    Supabase client initialization
+│   └── countries.json Country and flag data
+├── _styles/           Global styles and color data
+├── _types/            TypeScript data and session types
+├── about/             About page
+├── account/           Authenticated guest area
+├── api/auth/          Auth.js route handler
+├── cabins/            Catalogue, cabin detail, and confirmation pages
+├── login/             Sign-in page
+├── layout.tsx         Root layout, metadata, header, and reservation context
+└── page.tsx           Landing page
+public/                Static images and icons
+proxy.ts               Protects account routes
+next.config.ts         Next.js image host configuration
 ```
 
-## App Flow and Architecture
+Most pages are server components. They load data through
+`app/_lib/data-service.ts`; client components are used for interactive UI such
+as the calendar, filters, and forms. Mutations are implemented as server
+actions in `app/_lib/actions.ts`. The `@/` import alias maps to the repository
+root.
 
-### Server Components + Server Actions
+## How the application works
 
-This project uses the Next.js App Router pattern:
+### Authentication and guest profiles
 
-- pages and layouts live under `app/`
-- page data is loaded with async server components
-- database mutations are handled by server actions in `app/_lib/actions.ts`
+`app/_lib/auth.ts` configures Auth.js with Google. On sign-in, it requires an
+email, finds or creates a matching `guests` row, and adds that guest's ID to the
+session. The account route proxy requires an authenticated session. Sign-in and
+sign-out are exposed through server actions.
 
-This pattern keeps business logic close to the feature area and helps centralize authorization checks.
+### Cabin discovery and booking
 
-### Data Layer
+The catalogue reads cabins from Supabase and applies the capacity filter.
+Selecting a cabin loads its details, booking settings, and unavailable dates.
+The calendar disables past dates and dates that are already booked, and uses
+`minBookingLength` and `maxBookingLength` from the `settings` row.
 
-The main data access logic is in:
+Signed-in guests can submit the reservation form. The form calculates cabin
+price and optional breakfast cost, then the `createBooking` server action
+associates the booking with the current guest, sets its initial status to
+`unconfirmed`, and redirects to `/cabins/thankyou`.
 
-- `app/_lib/data-service.ts` for reading and transforming database records
-- `app/_lib/supabase.ts` for the shared Supabase client instance
+### Managing reservations and profile
 
-The app reads and writes records for:
+The reservations page loads records for the signed-in guest. Before an update
+or deletion, the server action checks that the requested reservation belongs to
+that guest. The profile form updates the guest's national ID, nationality, and
+country flag. Successful updates revalidate the relevant account pages.
 
-- `cabins`
-- `guests`
-- `bookings`
-- `settings`
+## Commands
 
-### Authentication Flow
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Run the development server |
+| `pnpm build` | Create a production build |
+| `pnpm start` | Serve the production build (run `pnpm build` first) |
+| `pnpm lint` | Run ESLint |
 
-The auth setup in `app/_lib/auth.ts` does the following:
-
-1. Configures Google as the identity provider
-2. Blocks unauthorized access via `authorized()`
-3. Ensures a guest row exists when a user signs in
-4. Adds the guest ID to the session for authorization checks
-
-### Authorization in Bookings
-
-Before a user can update or delete a reservation, the app:
-
-- loads the user’s bookings
-- compares IDs against the requested booking
-- throws an error when the reservation does not belong to the signed-in guest
-
-This pattern prevents users from modifying other users’ reservations.
-
-## Database and Supabase Notes
-
-This application expects a Supabase project with the following table concepts:
-
-- `cabins` - cabin metadata like name, price, capacity, and image
-- `guests` - guest profile data, including email, name, nationality, and national ID
-- `bookings` - reservations with dates, guests, cabin references, pricing, and status
-- `settings` - website or business configuration data
-
-The data access methods use calls like:
-
-```ts
-supabase.from('cabins').select('*')
-```
-
-and rely on both the URL and secret key being available through environment variables.
-
-## Booking Logic Highlights
-
-The booking system includes:
-
-- blocked date calculation from existing bookings
-- capacity-aware filtering
-- total price calculations
-- guest authorization checks
-- confirmation redirect after successful booking
-
-## Styling
-
-The UI uses Tailwind CSS for layout, spacing, colors, and component styling. The project also uses custom color tokens and typography that fit the brand aesthetic of a luxury lodge.
+There is currently no test script defined in `package.json`.
 
 ## Deployment
 
-This app is designed for deployment on platforms that support Next.js, especially:
+Deploy to a platform that supports Next.js, such as Vercel or a Node.js
+environment. Configure all required environment variables in the deployment
+environment, including production and preview environments where applicable.
 
-- Vercel
-- self-hosted Node environments
+Before launch:
 
-For production deployment, make sure to configure:
-
-- environment variables in the deployment platform
-- Google OAuth credentials and redirect URIs
-- Supabase project access and URL settings
-- secure secret values for `AUTH_SECRET`
-
-For Vercel, add `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `AUTH_GOOGLE_ID`,
-`AUTH_GOOGLE_SECRET`, and `AUTH_SECRET` to the project's Environment Variables
-for each deployment environment you use. Add your deployed domain's Google
-callback URL (`https://<your-domain>/api/auth/callback/google`) to the
-authorized redirect URIs in the Google OAuth client.
+1. Confirm the Supabase tables, settings row, relationships, and image URLs
+   satisfy the data contract above.
+2. Set the deployed domain's Google callback URI to
+   `https://<your-domain>/api/auth/callback/google`.
+3. Check that the production Supabase key is stored as a server-side secret and
+   is not exposed to client bundles.
+4. Update `next.config.ts` if your cabin image hostname differs from the
+   currently configured project.
+5. Run `pnpm build` and `pnpm lint`.
 
 ## Troubleshooting
 
-### Supabase connection issues
+### Supabase data does not load
 
-Check that:
+- Check that `SUPABASE_URL` and `SUPABASE_SECRET_KEY` are present and refer to
+  the intended project.
+- Check that the tables and field names match the data contract. Field names
+  such as `maxCapacity`, `regularPrice`, and `guestId` are case-sensitive in
+  application queries.
+- Ensure `settings` contains a row and the bookings-to-cabins relationship is
+  available to Supabase's relational select.
+- Check server logs for Supabase errors.
 
-- `SUPABASE_URL` is valid
-- `SUPABASE_SECRET_KEY` has the correct permission level
-- your database tables exist and match the app contract
+### Cabin images fail to render
 
-### Authentication issues
+- Check that each `cabins.image` URL is reachable.
+- Confirm that the image host is allowed by `images.remotePatterns` in
+  `next.config.ts`.
+- For images stored in Supabase Storage, confirm the expected bucket and
+  public URL are configured for your project.
 
-Check that:
+### Google sign-in fails
 
-- Google OAuth client ID and secret are correct
-- the Google OAuth client's authorized redirect URI is
-  `https://<your-domain>/api/auth/callback/google`
-- `AUTH_SECRET` is set
-- the Vercel deployment has all required environment variables configured
+- Verify `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, and `AUTH_SECRET`.
+- Confirm the OAuth redirect URI exactly matches the current host and
+  `/api/auth/callback/google` path.
+- Ensure the Google account provides an email and that the corresponding guest
+  record can be created in Supabase.
 
-### Booking actions fail
+### Reservation actions fail
 
-Most server actions verify the logged-in guest first. If a booking update or delete fails, confirm:
+- Confirm the user is signed in and has a guest record.
+- Check that the booking IDs and ownership fields (`guestId`, `cabinId`) in
+  Supabase are correct.
+- Check server logs for database errors and make sure the required form data
+  and settings are present.
 
-- the user is signed in
-- the reservation belongs to that guest
-- the booking still exists in the database
+## Limitations and project status
 
-## Project Status
-
-This is an educational and demo-quality project for learning modern Next.js patterns, server actions, App Router, TypeScript, and Supabase integration.
+This is an educational, demo-quality project. Its database schema is represented
+by the TypeScript types and queries in the source rather than versioned SQL
+migrations. Booking form checks are primarily implemented in the UI and server
+actions; review and add server-side validation, database constraints, and
+Supabase row-level security policies appropriate for your production
+requirements before using real customer or payment data. No payment processing
+is implemented.
 
 ## License
 
-This project is intended for learning and experimentation. Add a license file if you want to publish or share it publicly under a specific license.
-
-## Related Files
-
-- [app/_lib/auth.ts](app/_lib/auth.ts)
-- [app/_lib/data-service.ts](app/_lib/data-service.ts)
-- [app/_lib/actions.ts](app/_lib/actions.ts)
-- [app/cabins/page.tsx](app/cabins/page.tsx)
-- [app/account/page.tsx](app/account/page.tsx)
-- [app/layout.tsx](app/layout.tsx)
-
-## Notes
-
-This README is meant to document the project as it currently exists in this repository. If you add new modules, routes, or database tables, update this file so the documentation remains accurate.
+No license file is currently included. Add a license before redistributing or
+publishing the project if you need to specify reuse terms.
